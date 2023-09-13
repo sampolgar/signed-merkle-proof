@@ -1,24 +1,27 @@
-mod hash;
 mod hello;
 mod merkle_tree;
-mod node;
-mod proof;
+mod prebuilt_merkletree;
 
+pub use hello::hello;
+pub use prebuilt_merkletree::CBMT;
+// pub use merkle_tree::MerkleTree;
 
-pub struct Leaf {
-    hash: String,
-    left: Option<Box<Leaf>>,
-    right: Option<Box<Leaf>>,
-}
+#[cfg(test)]
+mod tests {
+    use super::*;
 
-pub struct MerkleTree {
-    root: Option<Leaf>,
-}
-
-impl MerkleTree {
-    pub fn new() -> MerkleTree {
-        MerkleTree { root: None }
+    #[test]
+    fn test_hello() {
+        assert_eq!(hello(), "Hello, world!");
     }
 
-    // Add more methods here...
+    // #[test]
+    // fn test_merkle_tree() {
+    //     let mut tree = MerkleTree::new();
+    //     let hash = tree.commit("Hello, world!".to_string());
+    //     assert_eq!(
+    //         hash,
+    //         "2c74fd17edafd80e8447b0d46741ee243b7eb74dd2149a0ab1b9246fb30382f6"
+    //     );
+    // }
 }

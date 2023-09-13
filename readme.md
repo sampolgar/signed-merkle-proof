@@ -24,3 +24,6 @@ Which uses merkle tree primitives from [https://datatracker.ietf.org/doc/html/rf
 
 By removing the commitment step, you simplify the process but also lose the benefits of commitment, such as the ability to hide the actual values and later reveal them in a verifiable manner. However, this could be a good starting point for you to get the basic functionality working before adding more advanced features like commitments and zero-knowledge proofs.
 `
+//https://medium.com/crypto-0-nite/merkle-proofs-explained-6dd429623dc5
+//https://computersciencewiki.org/index.php/Merkle_proof
+https://github.com/qbzzt/merkle-proofs-for-offline-data-integrity/blob/main/scripts/index.js#L65
