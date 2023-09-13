@@ -1,9 +1,9 @@
+mod binary_tree;
 mod hello;
 mod merkle_tree;
-mod prebuilt_merkletree;
 
 pub use hello::hello;
-pub use prebuilt_merkletree::CBMT;
+// pub use prebuilt_merkletree::CBMT;
 // pub use merkle_tree::MerkleTree;
 
 #[cfg(test)]
