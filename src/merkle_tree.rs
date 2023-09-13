@@ -13,7 +13,6 @@ impl BinaryTree {
     fn new() -> BinaryTree {
         BinaryTree { root: None }
     }
-
     //insert value into binary tree
     //create a new node struct with a value, add it to the tree
     fn insert(&mut self, value: i32) {
