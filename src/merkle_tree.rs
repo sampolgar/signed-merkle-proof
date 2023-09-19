@@ -8,7 +8,8 @@
 //  /\    / \   / \   / \
 // D1 D2 D3 D4 D5 D6 D7 D8
 // Where D is a hash of a data block
-use simple_hash::my_hash;
+use crate::my_hash::simple_2to1;
+use crate::my_hash::simple_hash;
 
 #[derive(Clone)]
 struct Node {
@@ -56,26 +57,53 @@ impl MerkleTree {
                 let node2 = if pair.len() > 1 { &pair[1] } else { &pair[0] };
 
                 //hash the pair of nodes
-                let mut hasher = Sha256::new();
-                hasher.input(node1.hash);
-                hasher.input(node2.hash);
-                let result = hasher.result();
+                let hash_pair = simple_2to1(&node1.hash, &node2.hash);
 
                 //create a new node with the hash of the pair of nodes
-                let new_node = Node { hash: result };
+                let new_node = Node { hash: hash_pair };
 
                 //add the new node to the next level
                 next_level.push(new_node);
             }
+
+            //set the next level as the current level
+            current_level = next_level.split_off(0);
         }
+        self.root = Some(Box::new(current_level[0].clone()));
     }
 }
 
-// #[cfg(test)]
-// mod tests {
-//     use super::*;
+#[cfg(test)]
+mod tests {
+    use super::*;
 
-//     #[test]
+    #[test]
+    fn test_4_insert() {
+        let mut tree = MerkleTree::new();
+        tree.insert(simple_hash("Data1"));
+        tree.insert(simple_hash("Data2"));
+        tree.insert(simple_hash("Data3"));
+        tree.insert(simple_hash("Data4"));
+        tree.insert(simple_hash("Data5"));
+        tree.insert(simple_hash("Data6"));
+        tree.insert(simple_hash("Data7"));
+        tree.insert(simple_hash("Data8"));
+        assert_eq!(
+            tree.root.as_ref().unwrap().hash,
+            simple_2to1(
+                &simple_2to1(
+                    &simple_2to1(&simple_hash("Data1"), &simple_hash("Data2")),
+                    &simple_2to1(&simple_hash("Data3"), &simple_hash("Data4"))
+                ),
+                &simple_2to1(
+                    &simple_2to1(&simple_hash("Data5"), &simple_hash("Data6")),
+                    &simple_2to1(&simple_hash("Data7"), &simple_hash("Data8"))
+                )
+            )
+        );
+    }
+}
+
 //     fn test_3_insert() {
 //         let mut tree = BinaryTree::new();
 //         tree.insert(5);

@@ -34,6 +34,17 @@ pub fn simple_hash(message: &str) -> [u16; 16] {
     hash
 }
 
+pub fn simple_2to1(hash1: &[u16; 16], hash2: &[u16; 16]) -> [u16; 16] {
+    let mut hash: [u16; 16] = [0; 16];
+
+    // XOR the two hashes bit by bit
+    for i in 0..16 {
+        hash[i] = hash1[i] ^ hash2[i];
+    }
+
+    hash
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
